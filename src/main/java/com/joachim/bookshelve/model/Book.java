@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.data.domain.AbstractAggregateRoot;
+import org.springframework.hateoas.Identifiable;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
@@ -15,7 +16,7 @@ import java.util.UUID;
 @Entity
 @NoArgsConstructor
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
-public class Book extends AbstractAggregateRoot<Book> {
+public class Book extends AbstractAggregateRoot<Book> implements Identifiable<UUID> {
 
     @Id
     private UUID id;
