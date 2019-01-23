@@ -14,7 +14,7 @@ public class KafkaEventReceiver {
 
     private final BookLentEventRepository repository;
 
-    @KafkaListener(topics = "${spring.kafka.topic.book-bought}")
+    @KafkaListener(topics = "${spring.kafka.topic.book-lent-event}")
     public void receiveBookLendEvent(BookLentEvent bookLentEvent) {
         log.info("received payload='{}'", bookLentEvent);
         System.out.println("Repository currently has: " + repository.findAll().size());

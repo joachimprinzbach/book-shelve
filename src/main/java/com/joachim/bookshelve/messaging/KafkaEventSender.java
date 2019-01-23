@@ -19,19 +19,19 @@ public class KafkaEventSender {
     private final KafkaTemplate<String, BookLentEvent> kafkaTemplate;
     private final BookLentEventRepository repository;
 
-    @Value("${spring.kafka.topic.book-bought}")
+    @Value("${spring.kafka.topic.book-lent-event}")
     private String topic;
-
-    public void send(BookLentEvent payload) {
-        log.info("sending payload='{}' to topic='{}'", payload, topic);
-        BookLentEvent savedEvent = repository.save(payload);
-        kafkaTemplate.send(topic, savedEvent);
-    }
 
     @EventListener
     public void onBookHasBeenLentEvent(BookHasBeenLentEvent event) {
         Book source = (Book) event.getSource();
         BookLentEvent bookLentEvent = BookLentEvent.of(source.getIsbn());
         this.send(bookLentEvent);
+    }
+
+    private void send(BookLentEvent payload) {
+        log.info("sending payload='{}' to topic='{}'", payload, topic);
+        BookLentEvent savedEvent = repository.save(payload);
+        kafkaTemplate.send(topic, savedEvent);
     }
 }
